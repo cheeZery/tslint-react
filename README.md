@@ -94,6 +94,7 @@ The built-in configuration preset you get with `"extends": "tslint-react"` is se
    - Off by default
 - `jsx-self-close` (since v0.4.0)
   - Enforces that JSX elements with no children are self-closing.
+  - _Includes automatic code fix_
   ```ts
   // bad
   <div className="foo"></div>
@@ -104,6 +105,7 @@ The built-in configuration preset you get with `"extends": "tslint-react"` is se
 - `jsx-space-before-trailing-slash`
   - Checks that self-closing JSX elements have a space before the '/>' part.
   - Rule options: _none_
+  - _Includes automatic code fix_
 - `jsx-wrap-multiline` (since v2.1)
   - Enforces that multiline JSX expressions are wrapped with parentheses.
   - Opening parenthesis must be followed by a newline.

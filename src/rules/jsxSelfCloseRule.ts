@@ -16,7 +16,7 @@
  */
 
 import * as Lint from "tslint";
-import { isJsxElement } from "tsutils";
+import { isJsxElement } from "tsutils/typeguard/3.0";
 import * as ts from "typescript";
 
 export class Rule extends Lint.Rules.AbstractRule {
@@ -50,7 +50,13 @@ function walk(ctx: Lint.WalkContext<void>): void {
                 && node.children[0].getText() === "";
             const noChildren = node.children.length === 0 || textIsEmpty;
 
-            if (missingOpeningOrClosingTag || noChildren) {
+            if (!missingOpeningOrClosingTag && noChildren) {
+                const openingElementText = node.openingElement.getFullText();
+                const selfClosingNode = openingElementText.slice(0, openingElementText.lastIndexOf(">")) + "/>";
+                const fix = new Lint.Replacement(node.getStart(), node.getWidth(), selfClosingNode);
+
+                ctx.addFailureAtNode(node, Rule.FAILURE_STRING, fix);
+            } else if (noChildren) {
                 ctx.addFailureAtNode(node, Rule.FAILURE_STRING);
             }
         }
